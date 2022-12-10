@@ -210,9 +210,25 @@ def to_Sum( name, offset="(0,0,0)", to="(0,0,0)", radius=2.5, opacity=0.6):
 """
 
 
-def to_connection( of, to):
+def to_Sum( name, offset="(0,0,0)", to="(0,0,0)", radius=2.5, opacity=0.6):
     return r"""
-\draw [connection]  ("""+of+"""-east)    -- node {\midarrow} ("""+to+"""-west);
+\pic[shift={"""+ offset +"""}] at """+ to +"""
+    {Ball={
+        name=""" + name +""",
+        fill=\SumColor,
+        opacity="""+ str(opacity) +""",
+        radius="""+ str(radius) +""",
+        logo=$+$
+        }
+    };
+"""
+
+
+def to_connection(of, to):
+    if "," not in of:
+        of = f"{of}-east"
+    return r"""
+\draw [connection]  ("""+of+""")    -- node {\midarrow} ("""+to+"""-west);
 """
 
 def to_skip( of, to, pos=1.25):
